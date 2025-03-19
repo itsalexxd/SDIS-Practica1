@@ -30,6 +30,7 @@ public class Servidor {
         user_password.put("cllamas", "qwerty");
         user_password.put("hector", "lkjlkj");
         user_password.put("sdis", "987123");
+        user_password.put("admin", "$%&/()=");
 
         // Maximo 5 hilos (uno para cada cliente)
         int NThreads = 5;

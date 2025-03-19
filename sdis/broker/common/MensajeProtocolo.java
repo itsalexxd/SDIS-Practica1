@@ -1,41 +1,43 @@
 package sdis.broker.common;
 
-import sdis.broker.client.unit.*;
+import sdis.broker.client.unit.Auth;
 
-public class MensajeProtocolo implements java.io.Serializable {
+public class MensajeProtocoloProvisional {
     private final Primitiva primitiva;
     private final String mensaje; /* HELLO, PUSH, PULL_OK */
     private final String idCola;  /* PUSH, PULL_WAIT, PULL_NOWAIT */
 
-  /* Constructor para PUSH_OK, NOTHING, NOTUNDERSTAND */
-    public MensajeProtocolo(Primitiva p) throws MalMensajeProtocoloException {
-        if (p == Primitiva.PUSH_OK || p == Primitiva.NOTUNDERSTAND || p == Primitiva.NOTHING) {
+    /* Constructor para PUSH_OK, NOTHING, NOTUNDERSTAND */
+    /* ADDED(PUSH_OK) */
+    public MensajeProtocoloProvisional(Primitiva p) throws MalMensajeProtocoloException {
+        if (p == Primitiva.ADDED) {
             this.primitiva = p;
             this.mensaje = this.idCola = null;
-       } else
+        } else
             throw new MalMensajeProtocoloException();
     }
 
-  /* Constructor para HELLO, PULL_OK, PULL_WAIT, PULL_NOWAIT */
-    public MensajeProtocolo(Primitiva p, String mensaje) throws MalMensajeProtocoloException {
-        if (p == Primitiva.HELLO || p == Primitiva.PULL_OK) {
+    /* Constructor para HELLO, PULL_OK, PULL_WAIT, PULL_NOWAIT */
+    /* XAUTH,  */
+    public MensajeProtocoloProvisional(Primitiva p, String mensaje) throws MalMensajeProtocoloException {
+        if (p == Primitiva.XAUTH || p == Primitiva.PULL_OK) {
             this.mensaje = mensaje;
             this.idCola  = null;
         } else if (p == Primitiva.PULL_WAIT || p == Primitiva.PULL_NOWAIT) {
             this.idCola  = mensaje;
             this.mensaje = null;
-      } else
+        } else
             throw new MalMensajeProtocoloException();
-            this.primitiva = p;
-        }
+        this.primitiva = p;
+    }
 
-  /* Constructor para PUSH */
-    public MensajeProtocolo(Primitiva p, String idCola, String mensaje) throws MalMensajeProtocoloException {
-        if (p == Primitiva.PUSH) {
+    /* Constructor para ADDMSG */
+    public MensajeProtocoloProvisional(Primitiva p, String idCola, String mensaje) throws MalMensajeProtocoloException {
+        if (p == Primitiva.ADDMSG) {
             this.primitiva = p;
             this.mensaje = mensaje;
             this.idCola = idCola;
-       } else
+        } else
             throw new MalMensajeProtocoloException();
     }
 
@@ -61,5 +63,5 @@ public class MensajeProtocolo implements java.io.Serializable {
             default :
                 return this.primitiva+" NO SOPORTADA";
         }
-      }
+    }
 }

@@ -7,12 +7,14 @@ import sdis.broker.common.*;
 
 public class Auth {
     private static final String SERVIDOR = "localhost";
-    final private int PUERTO = 2000;
+    private static final int PUERTO = 2000;
 
-    public static boolean autenticar(String usuario, String clave){
-        try(Socket socket = new Socket(SERVIDOR, PUERTO));
-        BufferedReader inClinete = new BufferedReader(new InputStreamReader(Socket.getInputStream()));
-        PrintWriter outCliente = new PrintWriter(socket.getOutputStream(), true) {
+    public static boolean autenticar(String usuario, String password){
+        try(Socket socket = new Socket(SERVIDOR, PUERTO)){
+
+            // Recogemos la entrada y salida por parte del usuario
+            BufferedReader inCliente = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter outCliente = new PrintWriter(socket.getOutputStream(), true);
 
             // XAUTH: Usuario:
                 System.out.println(inCliente.readLine());
@@ -20,9 +22,9 @@ public class Auth {
 
             // XAUTH: Password:
                 System.out.println(inCliente.readLine());
-            outCliente(password);
+                outCliente.println(password);
 
-            String respuesta = inCliente.readLine();
+                String respuesta = inCliente.readLine();
                 System.out.println(respuesta);
 
                 return respuesta.contains("exitosa");

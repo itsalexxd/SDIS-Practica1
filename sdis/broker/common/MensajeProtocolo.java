@@ -1,5 +1,7 @@
 package sdis.broker.common;
 
+import sdis.broker.client.unit.*;
+
 public class MensajeProtocolo implements java.io.Serializable {
     private final Primitiva primitiva;
     private final String mensaje; /* HELLO, PUSH, PULL_OK */
@@ -49,7 +51,7 @@ public class MensajeProtocolo implements java.io.Serializable {
 
             // cliente solicita al servidor que añada un mensaje de texto val a la cola key
             case Primitiva.ADDMSG:
-                return true;
+                return String.format("Welcome to %s: %s", this.primitiva, this.mensaje);
 
             // Autentica el inicio de sesion del usuario
             case Primitiva.XAUTH:
